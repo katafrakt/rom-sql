@@ -48,17 +48,11 @@ module ROM
         # @api public
         module ClassMethods
           # @api private
-          def create_class(
-            relation:,
-            rel_meta: {},
-            parent_relation: nil,
-            **opts,
-            &block
-          )
+          def create_class(relation:, rel_meta: {}, parent_relation: nil, **, &block)
             klass = super
 
             if relation && rel_meta[:combine_type]
-              setup_associates(klass, relation, rel_meta, parent_relation)
+              setup_associates(klass, relation, parent_relation)
             end
 
             klass
@@ -70,7 +64,7 @@ module ROM
           # @param [Relation] relation The relation for the command
           #
           # @api private
-          def setup_associates(klass, relation, _meta, parent_relation)
+          def setup_associates(klass, relation, parent_relation)
             assoc_name =
               if relation.associations.key?(parent_relation)
                 parent_relation

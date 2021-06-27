@@ -28,6 +28,7 @@ require "dotenv/load"
 
 require "rom-sql"
 require "rom/sql/rake_task"
+require "rom/compat"
 
 require "logger"
 require "tempfile"
