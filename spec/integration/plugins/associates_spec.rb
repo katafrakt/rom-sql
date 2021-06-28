@@ -18,10 +18,6 @@ RSpec.describe "Plugins / :associates", seeds: false do
             end
           end
         end
-
-        conf.commands(:users) do
-          define(:create) { result :one }
-        end
       end
 
       describe "#with_association" do
@@ -97,6 +93,10 @@ RSpec.describe "Plugins / :associates", seeds: false do
         include_context "automatic FK setting"
 
         before do
+          conf.commands(:users) do
+            define(:create) { result :one }
+          end
+
           conf.relation(:tasks) do
             schema(infer: true) do
               associations do
