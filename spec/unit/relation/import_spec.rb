@@ -1,3 +1,5 @@
+require "rom/memory"
+
 RSpec.describe ROM::Relation, "#import" do
   subject(:relation) { relations[:users] }
 

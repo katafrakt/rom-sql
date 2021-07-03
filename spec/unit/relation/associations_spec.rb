@@ -14,13 +14,13 @@ RSpec.describe ROM::Relation, "#associations" do
           end
         end
 
-        expect(relation.associations[:tasks]).to be(container.relations.users.schema.associations[:tasks])
+        expect(relation.associations[:tasks].target).to be(container.relations[:tasks])
       end
     end
 
     context "without schema" do
       it "returns an empty association set" do
-        expect(relation.associations.elements).to be_empty
+        expect(relation.associations).to be_empty
       end
     end
   end
