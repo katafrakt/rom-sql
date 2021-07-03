@@ -39,14 +39,12 @@ module ROM
         end
       end
 
-      subscribe("configuration.relations.dataset.allocated", adapter: :sql) do |event|
+      subscribe("configuration.relations.schema.set", adapter: :sql) do |event|
         event[:relation].define_default_views!(event[:schema])
       end
 
       # @api private
       def self.define_default_views!(schema)
-        undef_method :by_pk if method_defined?(:by_pk)
-
         if schema.primary_key.size > 1
           # @!method by_pk(val1, val2)
           #   Return a relation restricted by its composite primary key
