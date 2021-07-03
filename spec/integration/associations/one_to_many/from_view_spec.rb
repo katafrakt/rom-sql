@@ -32,8 +32,14 @@ RSpec.describe ROM::SQL::Associations::OneToMany, "#call" do
       conf.relation(:puzzles) do
         schema(infer: true)
 
-        view(:solved, schema) do
-          where(solved: true)
+        view(:solved) do
+          schema do
+            self
+          end
+
+          relation do
+            where(solved: true)
+          end
         end
       end
 
