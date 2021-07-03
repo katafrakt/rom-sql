@@ -29,27 +29,22 @@ module ROM
       schema_dsl SQL::Schema::DSL
       wrap_class SQL::Wrap
 
-      subscribe("configuration.relations.schema.set", adapter: :sql) do |event|
-        schema = event[:schema]
-        relation = event[:relation]
+      dataset do |schema|
+        table = opts[:from].first
 
-        relation.dataset do
-          table = opts[:from].first
-
-          if db.table_exists?(table)
-            select(*schema.qualified_projection).order(*schema.project(*schema.primary_key_names).qualified)
-          else
-            self
-          end
+        if db.table_exists?(table)
+          select(*schema.qualified_projection).order(*schema.project(*schema.primary_key_names).qualified)
+        else
+          self
         end
       end
 
       subscribe("configuration.relations.dataset.allocated", adapter: :sql) do |event|
-        event[:relation].define_default_views!
+        event[:relation].define_default_views!(event[:schema])
       end
 
       # @api private
-      def self.define_default_views!
+      def self.define_default_views!(schema)
         undef_method :by_pk if method_defined?(:by_pk)
 
         if schema.primary_key.size > 1
