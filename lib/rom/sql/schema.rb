@@ -162,17 +162,6 @@ module ROM
         end
       end
 
-      # Finalize associations
-      #
-      # @api private
-      def finalize_associations!(relations:)
-        super do
-          associations.map do |definition|
-            SQL::Associations.const_get(definition.type).new(definition, relations)
-          end
-        end
-      end
-
       memoize :qualified, :canonical, :joined, :project_pk
     end
   end
