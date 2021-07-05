@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rom/relation"
+
 require "rom/sql/types"
 require "rom/sql/schema"
 require "rom/sql/attribute"
