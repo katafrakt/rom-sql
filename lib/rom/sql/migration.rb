@@ -142,7 +142,7 @@ module ROM
 
       # @api public
       def auto_migrate!(conf, options = EMPTY_HASH)
-        migrator.auto_migrate!(self, ROM.container(conf).relations.map(&:schema), options)
+        migrator.auto_migrate!(self, conf.relations.map(&:schema), options)
       end
 
       private
