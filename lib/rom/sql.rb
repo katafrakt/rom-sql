@@ -5,8 +5,6 @@ require "rom/core"
 require "rom/sql/version"
 require "rom/sql/errors"
 
-require "rom/configuration_dsl"
-
 require "rom/sql/plugins"
 require "rom/sql/relation"
 require "rom/sql/mapper_compiler"
