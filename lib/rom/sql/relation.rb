@@ -17,7 +17,7 @@ module ROM
     #
     # @api public
     class Relation < ROM::Relation
-      adapter :sql
+      extend Dry::Core::ClassAttributes # TODO: only needed by pagination plugin
 
       include SQL
       include Writing
@@ -25,11 +25,18 @@ module ROM
 
       extend Notifications::Listener
 
-      schema_class SQL::Schema
-      schema_attr_class SQL::Attribute
-      schema_inferrer ROM::SQL::Schema::Inferrer.new.freeze
-      schema_dsl SQL::Schema::DSL
-      wrap_class SQL::Wrap
+      config.wrap_class = SQL::Wrap
+
+      configure(:component) do |config|
+        config.adapter = :sql
+      end
+
+      configure(:schema) do |config|
+        config.constant = SQL::Schema
+        config.attr_class = SQL::Attribute
+        config.dsl_class = SQL::Schema::DSL
+        config.inferrer = ROM::SQL::Schema::Inferrer.new.freeze
+      end
 
       dataset do |schema|
         table = opts[:from].first

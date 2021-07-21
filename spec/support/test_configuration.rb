@@ -1,16 +1,17 @@
-require "rom/configuration"
+require "rom/runtime"
 
-class TestConfiguration < ROM::Configuration
-  def relation(name, *, &block)
-    if registered_relation_names.include?(name)
-      setup.components.relations.delete_if do |component|
+class TestConfiguration < ROM::Runtime
+  def relation(name, **opts, &block)
+    if components.relations.map(&:id).include?(name)
+      components.relations.delete_if do |component|
+        component.id == name
+      end
+
+      components.schemas.delete_if do |component|
         component.id == name
       end
     end
-    super
-  end
 
-  def registered_relation_names
-    setup.components.relations.map(&:id)
+    super(name, **opts, &block)
   end
 end

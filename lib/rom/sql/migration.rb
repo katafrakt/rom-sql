@@ -141,8 +141,8 @@ module ROM
       end
 
       # @api public
-      def auto_migrate!(conf, options = EMPTY_HASH)
-        migrator.auto_migrate!(self, conf.relations.map(&:schema), options)
+      def auto_migrate!(runtime, options = EMPTY_HASH)
+        migrator.auto_migrate!(self, runtime.resolver.relations.map(&:schema), options)
       end
 
       private

@@ -26,18 +26,18 @@ end
 
 require "dotenv/load"
 
-require "rom-sql"
-require "rom/sql/rake_task"
-require "rom/compat"
-
-require "logger"
-require "tempfile"
-
 begin
   require ENV["DEBUGGER"] || "byebug"
 rescue LoadError
   require "pry"
 end
+
+require "rom/sql"
+require "rom/sql/rake_task"
+require "rom/compat"
+
+require "logger"
+require "tempfile"
 
 LOGGER = Logger.new(File.open("./log/test.log", "a"))
 
@@ -106,7 +106,10 @@ SPEC_ROOT = root = Pathname(__FILE__).dirname
 TMP_PATH = root.join("../tmp")
 
 # quiet in specs
-ROM::SQL::Relation.tap { |r| r.schema_inferrer(r.schema_inferrer.suppress_errors) }
+ROM::SQL::Relation.config.schema.tap do |config|
+  config.inferrer = config.inferrer.suppress_errors
+        config.freeze
+end
 
 require "dry/core/deprecations"
 Dry::Core::Deprecations.set_logger!(root.join("../log/deprecations.log"))

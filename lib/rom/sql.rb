@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rom/core"
+require "rom/compat"
 
 require "rom/sql/version"
 require "rom/sql/errors"
