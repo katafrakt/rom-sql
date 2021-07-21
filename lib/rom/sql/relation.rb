@@ -38,7 +38,7 @@ module ROM
         config.inferrer = ROM::SQL::Schema::Inferrer.new.freeze
       end
 
-      dataset do |schema|
+      dataset(abstract: true) do |schema|
         table = opts[:from].first
 
         if db.table_exists?(table)
