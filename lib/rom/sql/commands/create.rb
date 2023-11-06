@@ -16,8 +16,6 @@ module ROM
         use :associates
         use :schema
 
-        after :finalize
-
         # Inserts provided tuples into the database table
         #
         # @api public
@@ -35,11 +33,6 @@ module ROM
         end
 
         private
-
-        # @api private
-        def finalize(tuples, *)
-          tuples.map { |t| relation.output_schema[t] }
-        end
 
         # Executes insert statement and returns inserted tuples
         #
